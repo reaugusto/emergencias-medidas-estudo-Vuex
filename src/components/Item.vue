@@ -8,17 +8,48 @@
     <div class="col" v-if="dados.telefone" v-text="dados.telefone"></div>
     <div class="col" v-if="dados.kit" v-text="dados.kit"></div>
     <div class="col-1">
-      <i class="bi-check2-square" style="cursor: pointer"></i>
+      <i
+        class="bi-check2-square"
+        style="cursor: pointer"
+        @click="adicionarItemEquipe"
+      ></i>
     </div>
     <br />
   </div>
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "Item",
   props: {
-    dados: Object
+    dados: Object,
+    tipo: String
+  },
+  methods: {
+    ...mapMutations({
+      setItemEquipe: "setItemEquipe",
+      setItemEquipeConVerificação: (commit, payload) => {
+        commit("setItemEquipe", payload);
+      }
+    }),
+    adicionarItemEquipe() {
+      let item = {
+        tipo: this.tipo,
+        dados: this.dados
+      };
+      //this.$store.commit("setItemEquipe", item);
+      /*
+      this.$store.commit({
+        type: 'setItemEquipe',
+        item
+      })
+      */
+      this.setItemEquipe({
+        item
+      });
+    }
   }
 };
 </script>

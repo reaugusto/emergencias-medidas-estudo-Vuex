@@ -4,12 +4,12 @@ export default new Vuex.Store({
   state: {
     titulo: "--> Emergengias Medicas< --",
     equipe: {
-      enfermeiro: "Joao",
-      socorrista: "Batman",
-      medico: "Dr Strange",
-      carro: "do Batman",
-      telefone: "00 9 8888-8888",
-      kit: "kit 001"
+      enfermeiro: "",
+      socorrista: "",
+      medico: "",
+      carro: "",
+      telefone: "",
+      kit: ""
     },
     enfermeiros: [
       { id: 1, nome: "João", escala: "12x36" },
@@ -19,6 +19,7 @@ export default new Vuex.Store({
     ],
     socorristas: [
       { id: 1, nome: "Marcos", turno: "manhã" },
+      { id: 4, nome: "Pedro", turno: "manhã" },
       { id: 2, nome: "Felipe", turno: "tarde" },
       { id: 3, nome: "Cláudia", turno: "tarde" },
       { id: 4, nome: "Michele", turno: "noite" }
@@ -60,6 +61,23 @@ export default new Vuex.Store({
           ? state.socorristas
           : state.socorristas.filter(s => s.turno === turno);
       };
+    },
+    totalSocorristas: state => state.socorristas.length,
+    totalSocorristasPorTurno: (state, getters) => turno =>
+      getters.socorristasPorTurno(turno).length
+  },
+  mutations: {
+    setItemEquipe: (state, { item }) => {
+      //let item = payload.item;
+      let tp = item.tipo;
+      let dd = item.dados;
+
+      if (tp == "enfermeiros") state.equipe.enfermeiro = dd.nome;
+      if (tp == "socorristas") state.equipe.socorrista = dd.nome;
+      if (tp == "medicos") state.equipe.medico = dd.nome;
+      if (tp == "carros") state.equipe.carro = dd.placa;
+      if (tp == "telefones") state.equipe.telefone = dd.telefone;
+      if (tp == "kits-de-reanimacao") state.equipe.kit = dd.kit;
     }
   }
 });
