@@ -21,13 +21,15 @@
           <div class="col">
             <img
               class="img-fluid"
-              :src="require('@/assets/ambulancias/indefinida.png')"
+              :src="require(`@/assets/ambulancias/${imgAmbulancia}`)"
             />
           </div>
         </div>
         <div class="row mt-3">
           <div class="col">
-            <button type="button" class="btn btn-primary">Montar equipe</button>
+            <button type="button" class="btn btn-primary" @click="montarEquipe">
+              Montar equipe
+            </button>
           </div>
         </div>
       </div>
@@ -41,12 +43,12 @@ export default {
   name: "ConfiguracaoEquipe",
   computed: {
     ...mapState({
-      Enfermeiro: (state) => state.equipe.enfermeiro,
-      Socorrista: (state) => state.equipe.socorrista,
-      Medico: (state) => state.equipe.medico,
-      Carro: (state) => state.equipe.carro,
-      Telefone: (state) => state.equipe.telefone,
-      kit: (state) => state.equipe.kit
+      Enfermeiro: state => state.equipe.enfermeiro,
+      Socorrista: state => state.equipe.socorrista,
+      Medico: state => state.equipe.medico,
+      Carro: state => state.equipe.carro,
+      Telefone: state => state.equipe.telefone,
+      kit: state => state.equipe.kit
     }),
     corTitulo() {
       let testeLogico = true;
@@ -54,6 +56,21 @@ export default {
         return "text-danger";
       }
       return "text-primary";
+    },
+    imgAmbulancia() {
+      if (this.kit) {
+        return "uti.png";
+      }
+      if (this.Carro) {
+        return "simples.png";
+      }
+      return "indefinida.png";
+    }
+  },
+  methods: {
+    montarEquipe() {
+      let equipe = Object.assign({}, this.$store.state.equipe);
+      this.$store.commit('adicionarEquipeEquipes', equipe)
     }
   }
 };

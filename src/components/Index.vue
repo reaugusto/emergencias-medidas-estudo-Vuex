@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { mapMutations, mapActions } from "vuex";
 import ConfiguracaoEquipe from "./ConfiguracaoEquipe.vue";
 import Equipamentos from "./Equipamentos.vue";
 import Equipes from "./Equipes.vue";
@@ -53,6 +54,32 @@ export default {
     tituloCustomizado() {
       return `.: ${this.$store.state.titulo}`;
     }
+  },
+  methods: {
+    ...mapMutations([
+      "setEnfermeiros",
+      "setSocorristas",
+      "setMedicos",
+      "setCarros",
+      "setTelefones",
+      "setKits"
+    ]),
+    ...mapActions({
+      buscaEquip: (dispatch, payload) => {
+        dispatch("fetchEquipemantos", payload);
+      },
+      buscaProf: dispatch => {
+        dispatch("fetchProfissionais");
+      }
+    })
+  },
+  created() {
+    this.buscaEquip({
+      carros: true,
+      telefones: true,
+      kitsDeReanimacao: true
+    });
+    this.buscaProf();
   }
 };
 </script>
